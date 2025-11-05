@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Package, ShoppingCart, TrendingUp, Settings, Menu } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingCart, TrendingUp, Settings, Menu, ClipboardList } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -16,6 +16,7 @@ import {
 const menuItems = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard },
   { title: "Products", url: "/products", icon: Package },
+  { title: "Inventory Ops", url: "/inventory", icon: ClipboardList },
   { title: "Categories", url: "/categories", icon: Menu },
   { title: "Reports", url: "/reports", icon: TrendingUp },
   { title: "Settings", url: "/settings", icon: Settings },

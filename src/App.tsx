@@ -12,6 +12,9 @@ import Categories from "./pages/Categories";
 import Reports from "./pages/Reports";
 import SettingsPage from "./pages/SettingsPage";
 import NotFound from "./pages/NotFound";
+import ProductDetail from "./pages/ProductDetail";
+import ProductForm from "./components/products/ProductForm";
+import InventoryOperations from "./pages/InventoryOperations";
 
 const queryClient = new QueryClient();
 
@@ -29,10 +32,14 @@ const App = () => (
               <main className="flex-1 p-6">
                 <Routes>
                   <Route path="/" element={<Dashboard />} />
-                  <Route path="/products" element={<Products />} />
-                  <Route path="/categories" element={<Categories />} />
-                  <Route path="/reports" element={<Reports />} />
-                  <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/products/new" element={<ProductForm mode="create" />} />
+            <Route path="/products/:id" element={<ProductDetail />} />
+            <Route path="/products/:id/edit" element={<ProductForm mode="edit" />} />
+            <Route path="/inventory" element={<InventoryOperations />} />
+            <Route path="/categories" element={<Categories />} />
+            <Route path="/reports" element={<Reports />} />
+            <Route path="/settings" element={<SettingsPage />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
