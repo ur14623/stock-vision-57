@@ -15,10 +15,9 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { CategoryStats } from "@/components/categories/CategoryStats";
-import { CategoryCard } from "@/components/categories/CategoryCard";
 import { CategoryForm, CategoryFormData } from "@/components/categories/CategoryForm";
 import { DeleteCategoryDialog, DeleteOptions } from "@/components/categories/DeleteCategoryDialog";
-import { Plus, Search, Grid, List } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 // Mock data
@@ -82,7 +81,6 @@ const mockCategories = [
 ];
 
 const Categories = () => {
-  const [view, setView] = useState<"grid" | "table">("grid");
   const [searchTerm, setSearchTerm] = useState("");
   const [showEmpty, setShowEmpty] = useState(true);
   const [showInactive, setShowInactive] = useState(true);
@@ -230,22 +228,6 @@ const Categories = () => {
               <SelectItem value="products-asc">Least Products</SelectItem>
             </SelectContent>
           </Select>
-          <div className="flex gap-2">
-            <Button
-              variant={view === "grid" ? "default" : "outline"}
-              size="icon"
-              onClick={() => setView("grid")}
-            >
-              <Grid className="h-4 w-4" />
-            </Button>
-            <Button
-              variant={view === "table" ? "default" : "outline"}
-              size="icon"
-              onClick={() => setView("table")}
-            >
-              <List className="h-4 w-4" />
-            </Button>
-          </div>
         </div>
 
         <div className="flex gap-4">
@@ -264,56 +246,43 @@ const Categories = () => {
         </div>
       </div>
 
-      {view === "grid" ? (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredCategories.map((category) => (
-            <CategoryCard
-              key={category.id}
-              {...category}
-              onEdit={handleEditCategory}
-              onDelete={() => handleDeleteCategory(category)}
-            />
-          ))}
-        </div>
-      ) : (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>#</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead>Products</TableHead>
-              <TableHead>Subs</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Actions</TableHead>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>#</TableHead>
+            <TableHead>Category</TableHead>
+            <TableHead>Products</TableHead>
+            <TableHead>Subs</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Actions</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {filteredCategories.map((category, index) => (
+            <TableRow key={category.id}>
+              <TableCell>{index + 1}</TableCell>
+              <TableCell className="font-medium">{category.name}</TableCell>
+              <TableCell>{category.productCount}</TableCell>
+              <TableCell>{category.subcategoryCount}</TableCell>
+              <TableCell>
+                <Badge variant={category.status === "active" ? "success" : "destructive"}>
+                  {category.status === "active" ? "🟢" : "🔴"} {category.status}
+                </Badge>
+              </TableCell>
+              <TableCell>
+                <div className="flex gap-2">
+                  <Button variant="ghost" size="sm" onClick={handleEditCategory}>
+                    Edit
+                  </Button>
+                  <Button variant="ghost" size="sm" onClick={() => handleDeleteCategory(category)}>
+                    Delete
+                  </Button>
+                </div>
+              </TableCell>
             </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filteredCategories.map((category, index) => (
-              <TableRow key={category.id}>
-                <TableCell>{index + 1}</TableCell>
-                <TableCell className="font-medium">{category.name}</TableCell>
-                <TableCell>{category.productCount}</TableCell>
-                <TableCell>{category.subcategoryCount}</TableCell>
-                <TableCell>
-                  <Badge variant={category.status === "active" ? "success" : "destructive"}>
-                    {category.status === "active" ? "🟢" : "🔴"} {category.status}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <div className="flex gap-2">
-                    <Button variant="ghost" size="sm" onClick={handleEditCategory}>
-                      Edit
-                    </Button>
-                    <Button variant="ghost" size="sm" onClick={() => handleDeleteCategory(category)}>
-                      Delete
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      )}
+          ))}
+        </TableBody>
+      </Table>
 
       {deleteDialog.category && (
         <DeleteCategoryDialog
