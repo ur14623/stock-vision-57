@@ -1,54 +1,71 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/layout/AppSidebar";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import Dashboard from "./pages/Dashboard";
-import Products from "./pages/Products";
-import Categories from "./pages/Categories";
-import Reports from "./pages/Reports";
-import SettingsPage from "./pages/SettingsPage";
-import NotFound from "./pages/NotFound";
-import ProductDetail from "./pages/ProductDetail";
-import ProductForm from "./components/products/ProductForm";
-import InventoryOperations from "./pages/InventoryOperations";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { AuthProvider } from "@/context/AuthContext";
+import { CampaignProvider } from "@/context/CampaignContext";
+import AppShell from "@/components/AppShell";
+import Dashboard from "@/pages/Dashboard";
+import CampaignList from "@/pages/CampaignList";
+import CampaignDetail from "@/pages/CampaignDetail";
+import CampaignCreate from "@/pages/CampaignCreate";
+import AudienceList from "@/pages/AudienceList";
+import AudienceDetail from "@/pages/AudienceDetail";
+import AudienceCreate from "@/pages/AudienceCreate";
+import ScheduleList from "@/pages/ScheduleList";
+import ScheduleDetail from "@/pages/ScheduleDetail";
+import MessageContentList from "@/pages/MessageContentList";
+import MessageContentDetail from "@/pages/MessageContentDetail";
+import MessageContentCreate from "@/pages/MessageContentCreate";
+import MessageContentEdit from "@/pages/MessageContentEdit";
+import Configurations from "@/pages/Configurations";
+import NotFound from "./pages/NotFound.tsx";
+import Login from "./pages/Login";
 
 const queryClient = new QueryClient();
 
 const App = () => (
-  <TooltipProvider>
-    <BrowserRouter>
-      <SidebarProvider defaultOpen={true}>
-        <div className="min-h-screen flex w-full bg-background">
-          <AppSidebar />
-          <div className="flex-1 flex flex-col w-full">
-            <Header />
-            <main className="flex-1 p-6 animate-fade-in">
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/products/new" element={<ProductForm mode="create" />} />
-                <Route path="/products/:id" element={<ProductDetail />} />
-                <Route path="/products/:id/edit" element={<ProductForm mode="edit" />} />
-                <Route path="/inventory" element={<InventoryOperations />} />
-                <Route path="/categories" element={<Categories />} />
-                <Route path="/reports" element={<Reports />} />
-                <Route path="/settings" element={<SettingsPage />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-            <Footer />
-          </div>
-        </div>
-      </SidebarProvider>
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
       <Toaster />
       <Sonner />
-    </BrowserRouter>
-  </TooltipProvider>
+      <BrowserRouter>
+        <AuthProvider>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/*"
+              element={
+                <CampaignProvider>
+                  <AppShell>
+                    <Routes>
+                      <Route path="/" element={<Dashboard />} />
+                      <Route path="/campaigns" element={<CampaignList />} />
+                      <Route path="/campaigns/new" element={<CampaignCreate />} />
+                      <Route path="/campaigns/:id" element={<CampaignDetail />} />
+                      <Route path="/campaigns/:id/edit" element={<CampaignCreate />} />
+                      <Route path="/audiences" element={<AudienceList />} />
+                      <Route path="/audiences/create" element={<AudienceCreate />} />
+                      <Route path="/audiences/:id" element={<AudienceDetail />} />
+                      <Route path="/schedules" element={<ScheduleList />} />
+                      <Route path="/schedules/:id" element={<ScheduleDetail />} />
+                      <Route path="/messages" element={<MessageContentList />} />
+                      <Route path="/messages/create" element={<MessageContentCreate />} />
+                      <Route path="/messages/:id" element={<MessageContentDetail />} />
+                      <Route path="/messages/:id/edit" element={<MessageContentEdit />} />
+                      <Route path="/configurations" element={<Configurations />} />
+                      <Route path="*" element={<NotFound />} />
+                    </Routes>
+                  </AppShell>
+                </CampaignProvider>
+              }
+            />
+          </Routes>
+        </AuthProvider>
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
 );
 
 export default App;
