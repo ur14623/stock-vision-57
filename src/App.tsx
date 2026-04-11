@@ -14,6 +14,8 @@ import AudienceList from "@/pages/AudienceList";
 import AudienceDetail from "@/pages/AudienceDetail";
 import AudienceCreate from "@/pages/AudienceCreate";
 import ScheduleList from "@/pages/ScheduleList";
+import ScheduleCreate from "@/pages/ScheduleCreate";
+import ScheduleEdit from "@/pages/ScheduleEdit";
 import ScheduleDetail from "@/pages/ScheduleDetail";
 import MessageContentList from "@/pages/MessageContentList";
 import MessageContentDetail from "@/pages/MessageContentDetail";
@@ -49,7 +51,9 @@ const App = () => (
                       <Route path="/audiences/create" element={<AudienceCreate />} />
                       <Route path="/audiences/:id" element={<AudienceDetail />} />
                       <Route path="/schedules" element={<ScheduleList />} />
+                      <Route path="/schedules/create" element={<ScheduleCreate />} />
                       <Route path="/schedules/:id" element={<ScheduleDetail />} />
+                      <Route path="/schedules/:id/edit" element={<ScheduleEdit />} />
                       <Route path="/messages" element={<MessageContentList />} />
                       <Route path="/messages/create" element={<MessageContentCreate />} />
                       <Route path="/messages/:id" element={<MessageContentDetail />} />
