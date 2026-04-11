@@ -14,6 +14,8 @@ import AudienceList from "@/pages/AudienceList";
 import AudienceDetail from "@/pages/AudienceDetail";
 import AudienceCreate from "@/pages/AudienceCreate";
 import ScheduleList from "@/pages/ScheduleList";
+import ScheduleCreate from "@/pages/ScheduleCreate";
+import ScheduleEdit from "@/pages/ScheduleEdit";
 import ScheduleDetail from "@/pages/ScheduleDetail";
 import MessageContentList from "@/pages/MessageContentList";
 import MessageContentDetail from "@/pages/MessageContentDetail";
