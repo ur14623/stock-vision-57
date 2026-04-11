@@ -51,7 +51,9 @@ const App = () => (
                       <Route path="/audiences/create" element={<AudienceCreate />} />
                       <Route path="/audiences/:id" element={<AudienceDetail />} />
                       <Route path="/schedules" element={<ScheduleList />} />
+                      <Route path="/schedules/create" element={<ScheduleCreate />} />
                       <Route path="/schedules/:id" element={<ScheduleDetail />} />
+                      <Route path="/schedules/:id/edit" element={<ScheduleEdit />} />
                       <Route path="/messages" element={<MessageContentList />} />
                       <Route path="/messages/create" element={<MessageContentCreate />} />
                       <Route path="/messages/:id" element={<MessageContentDetail />} />
