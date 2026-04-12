@@ -223,11 +223,13 @@ export default function MessageContentList() {
                 </tr>
               )}
               {!loading && messages.map((m) => {
-                const completeness = m.language_completeness;
+                const langCount = m.languages_available?.length || Object.keys(m.content).length;
+                const totalLangs = 5; // en, am, ti, om, so
+                const completeness = Math.round((langCount / totalLangs) * 100);
                 return (
                   <tr key={m.id} className="border-b last:border-b-0 hover:bg-accent/50 transition-colors">
                     <td className="px-5 py-3.5 font-medium">
-                      {m.campaign_info?.name ?? `Campaign #${m.campaign}`}
+                      Campaign #{m.campaign}
                     </td>
                     <td className="px-5 py-3.5">
                       <Badge variant="outline" className="text-xs">{LANGUAGE_LABELS[m.default_language as Language] ?? m.default_language}</Badge>
@@ -240,11 +242,9 @@ export default function MessageContentList() {
                       </div>
                     </td>
                     <td className="px-5 py-3.5">
-                      {completeness ? (
-                        <span className={`text-xs font-medium ${completeness.completeness_percentage === 100 ? "text-emerald-600" : "text-amber-600"}`}>
-                          {completeness.completeness_percentage.toFixed(0)}%
-                        </span>
-                      ) : "—"}
+                      <span className={`text-xs font-medium ${completeness === 100 ? "text-emerald-600" : "text-amber-600"}`}>
+                        {completeness}%
+                      </span>
                     </td>
                     <td className="px-5 py-3.5 text-muted-foreground truncate max-w-[200px] text-xs">
                       {m.preview && typeof m.preview === "object" ? m.preview.preview?.slice(0, 60) : "—"}
@@ -291,7 +291,7 @@ export default function MessageContentList() {
           <DialogHeader>
             <DialogTitle>Delete Message Content</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete message content for "{deleteTarget?.campaign_info?.name ?? `Campaign #${deleteTarget?.campaign}`}"? This cannot be undone.
+              Are you sure you want to delete message content for "Campaign #{deleteTarget?.campaign}"? This cannot be undone.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>

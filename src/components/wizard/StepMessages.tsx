@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import type { WizardData, Language } from "@/types/campaign";
 import { SUPPORTED_LANGUAGES, LANGUAGE_LABELS } from "@/types/campaign";
-import { fetchSupportedLanguages, renderMessagePreview, type RenderPreviewResponse } from "@/lib/api/messages";
+import { fetchSupportedLanguages } from "@/lib/api/messages";
 import { Eye, Loader2, MessageSquare } from "lucide-react";
 
 interface Props {
@@ -27,7 +27,7 @@ export default function StepMessages({ data, errors, update, messageId }: Props)
   const [languages, setLanguages] = useState<{ code: string; name: string }[]>([]);
   const [previewLang, setPreviewLang] = useState<string>(data.default_language);
   const [previewVars, setPreviewVars] = useState<string>('{"name": "Efrem"}');
-  const [preview, setPreview] = useState<RenderPreviewResponse | null>(null);
+  const [preview, setPreview] = useState<{ rendered_message: string; character_count: number; sms_segments: number } | null>(null);
   const [loadingPreview, setLoadingPreview] = useState(false);
 
   // Load supported languages from API
@@ -50,20 +50,26 @@ export default function StepMessages({ data, errors, update, messageId }: Props)
     update({ content: { ...data.content, [lang]: text } });
   }
 
-  const loadPreview = useCallback(async () => {
-    if (!messageId) return;
+  const loadPreview = useCallback(() => {
+    const template = data.content[previewLang as Language] || "";
+    if (!template.trim()) { setPreview(null); return; }
     setLoadingPreview(true);
     try {
       let vars: Record<string, string> = {};
       try { vars = JSON.parse(previewVars); } catch { /* ignore */ }
-      const result = await renderMessagePreview(messageId, previewLang, vars);
-      setPreview(result);
+      let rendered = template;
+      Object.entries(vars).forEach(([k, v]) => {
+        rendered = rendered.replace(new RegExp(`\\{${k}\\}`, "g"), v);
+      });
+      const charCount = rendered.length;
+      const segments = charCount <= 160 ? 1 : Math.ceil(charCount / 153);
+      setPreview({ rendered_message: rendered, character_count: charCount, sms_segments: segments });
     } catch {
       setPreview(null);
     } finally {
       setLoadingPreview(false);
     }
-  }, [messageId, previewLang, previewVars]);
+  }, [data.content, previewLang, previewVars]);
 
   return (
     <div className="space-y-5">
@@ -114,7 +120,7 @@ export default function StepMessages({ data, errors, update, messageId }: Props)
       })}
 
       {/* Live Preview Panel */}
-      {messageId && (
+      {Object.values(data.content).some(v => v.trim()) && (
         <div className="border rounded-sm p-4 space-y-3 bg-muted/30">
           <div className="flex items-center gap-2">
             <Eye className="h-4 w-4 text-muted-foreground" />
