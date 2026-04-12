@@ -156,9 +156,9 @@ export async function updateAudience(id: number, payload: AudienceUpdatePayload)
   return handleResponse<ApiAudienceDetail>(res);
 }
 
-/** DELETE /api/campaigns/:campaignId/audience/ */
+/** DELETE /api/audiences/:campaignId/ */
 export async function deleteAudienceById(campaignId: number) {
-  const res = await authFetch(`${API_BASE}/api/campaigns/${campaignId}/audience/`, {
+  const res = await authFetch(`${API_BASE}/api/audiences/${campaignId}/`, {
     method: "DELETE",
     headers: authHeaders(),
   });
