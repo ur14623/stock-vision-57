@@ -17,7 +17,7 @@ import { toast } from "sonner";
 export default function MessageContentList() {
   const navigate = useNavigate();
   const [messages, setMessages] = useState<ApiMessageContentListItem[]>([]);
-  const [summary, setSummary] = useState<MessageContentSummary | null>(null);
+  
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalCount, setTotalCount] = useState(0);
@@ -54,13 +54,9 @@ export default function MessageContentList() {
     setLoading(true);
     try {
       const filters = buildFilters();
-      const [listRes, summaryRes] = await Promise.all([
-        fetchMessageContents(page, pageSize, Object.keys(filters).length > 0 ? filters : undefined),
-        page === 1 ? fetchMessageContentSummary() : Promise.resolve(null),
-      ]);
+      const listRes = await fetchMessageContents(page, pageSize, Object.keys(filters).length > 0 ? filters : undefined);
       setMessages(listRes.results);
       setTotalCount(listRes.count);
-      if (summaryRes) setSummary(summaryRes);
     } catch (e) {
       console.error("Failed to load message contents", e);
     } finally {
@@ -107,16 +103,21 @@ export default function MessageContentList() {
         </Link>
       </div>
 
-      {summary && (
+      {totalCount > 0 && (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           <Card className="p-4 shadow-card">
             <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Total Messages</p>
-            <p className="text-2xl font-semibold">{summary.total_message_contents}</p>
+            <p className="text-2xl font-semibold">{totalCount}</p>
           </Card>
           <Card className="p-4 shadow-card">
             <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">By Default Language</p>
             <div className="flex flex-wrap gap-1 mt-1">
-              {Object.entries(summary.by_default_language).map(([lang, count]) => (
+              {Object.entries(
+                messages.reduce<Record<string, number>>((acc, m) => {
+                  acc[m.default_language] = (acc[m.default_language] || 0) + 1;
+                  return acc;
+                }, {})
+              ).map(([lang, count]) => (
                 <Badge key={lang} variant="outline" className="text-xs">
                   {LANGUAGE_LABELS[lang as Language] ?? lang}: {count}
                 </Badge>
@@ -124,10 +125,10 @@ export default function MessageContentList() {
             </div>
           </Card>
           <Card className="p-4 shadow-card">
-            <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Completeness</p>
+            <p className="text-xs text-muted-foreground uppercase tracking-wider mb-1">Languages Used</p>
             <div className="flex flex-wrap gap-1 mt-1">
-              {Object.entries(summary.content_completeness).map(([status, count]) => (
-                <Badge key={status} variant="secondary" className="text-xs capitalize">{status}: {count}</Badge>
+              {[...new Set(messages.flatMap(m => m.languages_available))].map((lang) => (
+                <Badge key={lang} variant="secondary" className="text-xs">{LANGUAGE_LABELS[lang as Language] ?? lang}</Badge>
               ))}
             </div>
           </Card>
