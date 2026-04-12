@@ -1,6 +1,6 @@
 import { authFetch, authHeaders, handleResponse } from "./base";
 
-const API_BASE_LOCAL = (import.meta.env.VITE_API_BASE_URL || "https://django-app-v6.onrender.com").replace(/\/+$/, "");
+const API_BASE_LOCAL = (import.meta.env.VITE_API_BASE_URL || "https://new-comaping.onrender.com").replace(/\/+$/, "");
 
 export interface DashboardSummary {
   total_campaigns: number;
