@@ -10,8 +10,8 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { LANGUAGE_LABELS, SUPPORTED_LANGUAGES } from "@/types/campaign";
 import type { Language } from "@/types/campaign";
 import { Plus, MessageSquareText, Eye, Pencil, Trash2, ChevronLeft, ChevronRight, Search, X } from "lucide-react";
-import { fetchMessageContents, fetchMessageContentSummary, deleteMessageContentById } from "@/lib/api/messages";
-import type { ApiMessageContentListItem, MessageContentSummary } from "@/lib/api/messages";
+import { fetchMessageContents, deleteMessageContentById } from "@/lib/api/messages";
+import type { ApiMessageContentListItem } from "@/lib/api/messages";
 import { toast } from "sonner";
 
 export default function MessageContentList() {
