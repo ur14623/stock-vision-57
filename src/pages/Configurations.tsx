@@ -31,7 +31,7 @@ export default function Configurations() {
             key={t.key}
             onClick={() => setTab(t.key)}
             className={cn(
-              "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors",
+              "flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors",
               tab === t.key
                 ? "bg-primary text-primary-foreground"
                 : "text-muted-foreground hover:bg-muted"
