@@ -120,7 +120,7 @@ export default function StepMessages({ data, errors, update, messageId }: Props)
       })}
 
       {/* Live Preview Panel */}
-      {messageId && (
+      {Object.values(data.content).some(v => v.trim()) && (
         <div className="border rounded-sm p-4 space-y-3 bg-muted/30">
           <div className="flex items-center gap-2">
             <Eye className="h-4 w-4 text-muted-foreground" />
