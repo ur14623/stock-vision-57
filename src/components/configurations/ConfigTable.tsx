@@ -127,6 +127,7 @@ export default function ConfigTable<T extends { id: number; is_active: boolean }
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex gap-1 justify-end">
+                      {extraActions?.(row)}
                       <Button variant="ghost" size="icon" onClick={() => onView(row)}>
                         <Eye className="h-4 w-4" />
                       </Button>
