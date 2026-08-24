@@ -31,7 +31,9 @@ interface Props<T extends { id: number; is_active: boolean }> {
   onEdit: (item: T) => void;
   onDelete: (id: number) => void;
   onToggleActive?: (item: T) => void;
+  extraActions?: (item: T) => ReactNode;
 }
+
 
 export default function ConfigTable<T extends { id: number; is_active: boolean }>({
   title,
@@ -43,6 +45,7 @@ export default function ConfigTable<T extends { id: number; is_active: boolean }
   onEdit,
   onDelete,
   onToggleActive,
+  extraActions,
 }: Props<T>) {
   const [search, setSearch] = useState("");
   const [deleteId, setDeleteId] = useState<number | null>(null);
@@ -124,6 +127,7 @@ export default function ConfigTable<T extends { id: number; is_active: boolean }
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex gap-1 justify-end">
+                      {extraActions?.(row)}
                       <Button variant="ghost" size="icon" onClick={() => onView(row)}>
                         <Eye className="h-4 w-4" />
                       </Button>
