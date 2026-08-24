@@ -31,7 +31,9 @@ interface Props<T extends { id: number; is_active: boolean }> {
   onEdit: (item: T) => void;
   onDelete: (id: number) => void;
   onToggleActive?: (item: T) => void;
+  extraActions?: (item: T) => ReactNode;
 }
+
 
 export default function ConfigTable<T extends { id: number; is_active: boolean }>({
   title,
