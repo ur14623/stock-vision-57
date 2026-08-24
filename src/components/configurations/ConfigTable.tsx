@@ -45,6 +45,7 @@ export default function ConfigTable<T extends { id: number; is_active: boolean }
   onEdit,
   onDelete,
   onToggleActive,
+  extraActions,
 }: Props<T>) {
   const [search, setSearch] = useState("");
   const [deleteId, setDeleteId] = useState<number | null>(null);
