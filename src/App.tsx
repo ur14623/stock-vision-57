@@ -59,6 +59,7 @@ const App = () => (
                       <Route path="/messages/create" element={<MessageContentCreate />} />
                       <Route path="/messages/:id" element={<MessageContentDetail />} />
                       <Route path="/messages/:id/edit" element={<MessageContentEdit />} />
+                      <Route path="/reports" element={<Reports />} />
                       <Route path="/configurations" element={<Configurations />} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
