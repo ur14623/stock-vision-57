@@ -4,6 +4,7 @@ import {
   Users,
   CalendarClock,
   MessageSquareText,
+  BarChart3,
   Settings,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
