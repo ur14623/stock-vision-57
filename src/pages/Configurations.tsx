@@ -1,18 +1,20 @@
 import { useState } from "react";
-import { Languages, Radio, Database, Send, Router } from "lucide-react";
+import { Languages, Radio, Database, Send, Mail, UserCog } from "lucide-react";
 import { cn } from "@/lib/utils";
 import LanguagesTab from "@/components/configurations/LanguagesTab";
 import ChannelsTab from "@/components/configurations/ChannelsTab";
-import DbConfigsTab from "@/components/configurations/DbConfigsTab";
+import DataSourcesTab from "@/components/configurations/DataSourcesTab";
 import SenderIdsTab from "@/components/configurations/SenderIdsTab";
-import RouterConfigsTab from "@/components/configurations/RouterConfigsTab";
+import EmailServicesTab from "@/components/configurations/EmailServicesTab";
+import CustomerProfileConfigsTab from "@/components/configurations/CustomerProfileConfigsTab";
 
 const TABS = [
   { key: "languages", label: "Languages", icon: Languages },
   { key: "channels", label: "Channels", icon: Radio },
-  { key: "db", label: "Database", icon: Database },
+  { key: "sources", label: "Data Sources", icon: Database },
   { key: "sender", label: "Sender IDs", icon: Send },
-  { key: "router", label: "Router / ISP", icon: Router },
+  { key: "email", label: "Email Services", icon: Mail },
+  { key: "profile", label: "Customer Profile", icon: UserCog },
 ] as const;
 
 type TabKey = (typeof TABS)[number]["key"];
@@ -46,9 +48,10 @@ export default function Configurations() {
       {/* Content */}
       {tab === "languages" && <LanguagesTab />}
       {tab === "channels" && <ChannelsTab />}
-      {tab === "db" && <DbConfigsTab />}
+      {tab === "sources" && <DataSourcesTab />}
       {tab === "sender" && <SenderIdsTab />}
-      {tab === "router" && <RouterConfigsTab />}
+      {tab === "email" && <EmailServicesTab />}
+      {tab === "profile" && <CustomerProfileConfigsTab />}
     </div>
   );
 }

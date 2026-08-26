@@ -22,6 +22,7 @@ import MessageContentDetail from "@/pages/MessageContentDetail";
 import MessageContentCreate from "@/pages/MessageContentCreate";
 import MessageContentEdit from "@/pages/MessageContentEdit";
 import Configurations from "@/pages/Configurations";
+import Reports from "@/pages/Reports";
 import NotFound from "./pages/NotFound.tsx";
 import Login from "./pages/Login";
 

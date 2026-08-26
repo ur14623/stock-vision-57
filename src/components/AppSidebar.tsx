@@ -4,6 +4,7 @@ import {
   Users,
   CalendarClock,
   MessageSquareText,
+  BarChart3,
   Settings,
 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
@@ -28,6 +29,7 @@ const NAV_ITEMS = [
   { title: "Audiences", url: "/audiences", icon: Users },
   { title: "Schedules", url: "/schedules", icon: CalendarClock },
   { title: "Messages", url: "/messages", icon: MessageSquareText },
+  { title: "Reports", url: "/reports", icon: BarChart3 },
   { title: "Configurations", url: "/configurations", icon: Settings },
 ];
 
